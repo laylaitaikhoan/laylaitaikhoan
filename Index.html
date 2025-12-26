@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DXZ SHOP</title>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+</head>
+<body style="background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif;">
+    
+    <div id="loading">Đang tải giao diện Dxz Shop...</div>
+    <div id="app-container" style="width: 100%; height: 100%;"></div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBHo70-xMpsutE9nqWXZZMlmxfjBsyi37Y",
+            authDomain: "dxzshop-c73de.firebaseapp.com",
+            databaseURL: "https://dxzshop-c73de-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "dxzshop-c73de"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // Tự động cập nhật nội dung HTML từ Firebase
+        db.ref('settings/clientHTML').on('value', snap => {
+            const code = snap.val();
+            if(code) {
+                // Xóa nội dung cũ và ghi đè nội dung mới từ Admin
+                document.open();
+                document.write(code);
+                document.close();
+            } else {
+                document.getElementById('loading').innerText = "Vui lòng dán code vào Admin để khởi tạo shop!";
+            }
+        });
+    </script>
+</body>
+</html>
